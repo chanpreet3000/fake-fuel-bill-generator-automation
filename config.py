@@ -26,9 +26,5 @@ FUEL_TIME_HOUR = [9, 10, 11]
 FUEL_TIME_MIN = list(range(0, 60, 1))
 # Range for generating random receipt numbers (1000 to 9999)
 RECEIPT_NUMBER = list(range(1000, 9999, 1))
-# Range of possible days for the fuel purchase date (1 to 31)
-FUEL_DATE_DAY = list(range(1, 31, 1))
-# Range of possible months for the fuel purchase date (1 to 12)
-FUEL_DATE_MONTH = list(range(1, 13, 1))
-# Range of possible years for the fuel purchase date (2022 to 2024)
-FUEL_DATE_YEAR = list(range(2022, 2025, 1))
+# Starting date for fuel bills (format: DD:MM:YYYY)
+FUEL_DATE = "26:11:2024"

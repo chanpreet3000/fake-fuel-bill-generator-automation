@@ -5,19 +5,26 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-
-from config import FS_AMOUNT, FUEL_RATE, FUEL_STATION_NAME, NAME, RECEIPT_NUMBER, VEHICLE_NUMBER, FUEL_TIME_HOUR, \
-    FUEL_TIME_MIN, FUEL_DATE_DAY, FUEL_DATE_MONTH, FUEL_DATE_YEAR
-from Logger import Logger
-import time
+from datetime import datetime, timedelta
 import random
 import os
+import time
+
+from config import (
+    FS_AMOUNT, FUEL_RATE, FUEL_STATION_NAME, NAME,
+    RECEIPT_NUMBER, VEHICLE_NUMBER, FUEL_TIME_HOUR,
+    FUEL_TIME_MIN, FUEL_DATE
+)
+from Logger import Logger
 
 
 def generate_fuel_bill(num_bills: int = 1):
     Logger.info("Starting fuel bill generation process")
     driver = None
     try:
+        day, month, year = map(int, FUEL_DATE.split(':'))
+        current_date = datetime(year, month, day)
+
         os.makedirs("./data", exist_ok=True)
         Logger.debug("Created or verified data directory at ./data")
 
@@ -53,11 +60,16 @@ def generate_fuel_bill(num_bills: int = 1):
         for i in range(num_bills):
             Logger.info(f"Generating bill {i + 1} of {num_bills}")
 
+            # Format current date and increment for next iteration
+            formatted_date = current_date.strftime("%d:%m:%Y")
+            increment_days = random.choice([3, 4])
+            current_date += timedelta(days=increment_days)
+
             fields = {
                 "fs-station-name": FUEL_STATION_NAME,
                 "fs-fuel-rate": random.choice(FUEL_RATE),
                 "fs-amount": random.choice(FS_AMOUNT),
-                "fs-date": f"{random.choice(FUEL_DATE_DAY)}:{random.choice(FUEL_DATE_MONTH)}:{random.choice(FUEL_DATE_YEAR)}",
+                "fs-date": formatted_date,
                 "fs-time": f"{random.choice(FUEL_TIME_HOUR)}:{random.choice(FUEL_TIME_MIN)}:AM",
                 "u-name": NAME,
                 "u-vechicle-number": VEHICLE_NUMBER,
