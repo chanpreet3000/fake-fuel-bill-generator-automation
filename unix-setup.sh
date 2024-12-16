@@ -1,24 +1,24 @@
-#!/bin/bash
+#!/usr/bin/env bash
 echo "Setting up the project..."
 
-# Check if Python is installed
-if ! command -v python &> /dev/null
+# Check if Python 3 is installed
+if ! command -v python3 &> /dev/null
 then
-    echo "Python is not installed. Please install Python and try again."
+    echo "Python 3 is not installed. Please install Python 3 and try again."
     read -p "Press any key to continue..."
     exit 1
 fi
 
 # Create virtual environment
 echo "Creating virtual environment..."
-python -m venv .venv
+python3 -m venv .venv
 
 # Activate virtual environment
 source .venv/bin/activate
 
 # Install requirements
 echo "Installing requirements..."
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 echo "Setup complete. You can now run the project using the run_project.sh script."
 read -p "Press any key to continue..."
